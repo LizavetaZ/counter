@@ -1,0 +1,34 @@
+.Counter {
+    width: 140px;
+    height: 70px ;
+    background-color: #091640;
+    margin: 100px auto;
+    border: 3px solid dodgerblue;
+    padding: 10px;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.counterfield {
+    display: flex;
+    justify-content: center;
+    background-color: #8bd4e3;
+    height: 30px;
+    border-radius: 5px;
+
+}
+
+.redcounterfield {
+    display: flex;
+    justify-content: center;
+    background-color: #8bd4e3;
+    height: 30px;
+    border-radius: 5px;
+    color: red;
+}
+
+.error {
+    color: red;
+}
