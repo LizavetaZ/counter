@@ -13,6 +13,8 @@ export type SetterPropsType = {
     setMaxValue: (maximumValue: number) => void
     setMinValue: (minimumValue: number) => void
     setCounter: (counter: number) => void
+    setValue: () => void
+    setIsSetClicked: (value: boolean) => void
 }
 
 
@@ -27,11 +29,9 @@ export const Setter = (props: SetterPropsType) => {
         props.setIsChanged(true)
     };
 
-    const setValue = () => {
-        props.setIsChanged(false)
-        props.setCounter(props.minimumValue)
-        localStorage.setItem('minimumValue', JSON.stringify(props.minimumValue))
-        localStorage.setItem('maximumValue', JSON.stringify(props.maximumValue))
+    const handleSetValueAndChickIsClickedSet = () => {
+        props.setValue()
+        props.setIsSetClicked(false)
     }
 
     return (
@@ -47,7 +47,7 @@ export const Setter = (props: SetterPropsType) => {
                     setTitle={(value) => handleMinValueChange(value)} error={props.error}/>
             </div>
             <div className={s.setButton}>
-                <Button name={'set'} callback={setValue} disabled={!props.isChanged || !!props.error}/>
+                    <Button name={'set'} callback={handleSetValueAndChickIsClickedSet}  disabled={!props.isChanged || !!props.error}/>
             </div>
         </div>
     );

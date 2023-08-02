@@ -51,9 +51,19 @@ function App() {
         }
     }, [minimumValue, maximumValue]);
 
+    const setValue = () => {
+        setIsChanged(false)
+        setCounter(minimumValue)
+        setIsSetClicked(true);
+        localStorage.setItem('minimumValue', JSON.stringify(minimumValue))
+        localStorage.setItem('maximumValue', JSON.stringify(maximumValue))
+    }
+
+    let [isSetClicked, setIsSetClicked] = useState(false)
+
     return (
         <div className="App">
-            <div className="Setter">
+            {isSetClicked ?
                 <Setter maximumValue={maximumValue}
                         minimumValue={minimumValue}
                         error={error}
@@ -62,10 +72,10 @@ function App() {
                         setMaxValue={setMaxValue}
                         setMinValue={setMinValue}
                         counter={counter}
-                        setCounter={setCounter}/>
-            </div>
-            <div className={s.Counter}>
-                <Counter
+                        setCounter={setCounter}
+                        setValue = {setValue}
+                        setIsSetClicked = {setIsSetClicked}/>
+               : <Counter
                     maxValue={maximumValue}
                     minValue={minimumValue}
                     isChanged={isChanged}
@@ -73,8 +83,9 @@ function App() {
                     counter={counter}
                     resetCount={resetCount}
                     error={error}
-                />
-            </div>
+                    setIsSetClicked = {(value) => setIsSetClicked(value)}
+                />}
+
         </div>
     );
 }
