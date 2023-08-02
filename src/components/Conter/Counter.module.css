@@ -1,11 +1,10 @@
 .Counter {
-    width: 140px;
-    height: 70px ;
+    width: 250px;
+    height: 150px ;
     background-color: #091640;
-    margin: 100px auto;
+    margin: 100px;
     border: 3px solid dodgerblue;
     padding: 10px;
-    color: black;
     font-weight: bold;
     font-size: 20px;
     border-radius: 5px;
@@ -15,20 +14,27 @@
     display: flex;
     justify-content: center;
     background-color: #8bd4e3;
-    height: 30px;
+    height: 85px;
     border-radius: 5px;
-
+    font-size: 30px;
+    text-align: center;
+    align-items: center;
 }
 
 .redcounterfield {
     display: flex;
     justify-content: center;
     background-color: #8bd4e3;
-    height: 30px;
+    height: 85px;
     border-radius: 5px;
     color: red;
+    font-size: 30px;
+    text-align: center;
+    align-items: center;
 }
 
-.error {
-    color: red;
+.buttons {
+    display: flex;
+    justify-content: space-around;
+margin-top: 20px;
 }

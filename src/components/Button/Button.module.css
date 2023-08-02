@@ -1,21 +1,13 @@
-
-
-.buttons {
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    gap: 40px;
-    border: 1px solid dodgerblue;
-    padding: 3px;
-    border-radius: 5px;
-}
-
-.activebutton {
+.activebutton, .disbutton {
+    display: inline-block;
     background-color: #7bc4bc;
-    border-radius: 5px;
     font-weight: bold;
     border: none;
+    border-radius: 5px;
+    margin-right: 10px; /* add margin to the right */
+    width: 80px;
+    height: 30px;
+    font-size: 20px;
 }
 
 .activebutton:active {
@@ -24,11 +16,4 @@
     font-weight: bold;
     border: none;
     color: white;
-}
-
-.disbutton {
-    background-color: #83b7e8;
-    border-radius: 5px;
-    font-weight: bold;
-    border: none;
 }

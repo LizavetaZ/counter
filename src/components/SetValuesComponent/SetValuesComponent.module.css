@@ -1,5 +1,26 @@
+.SetterChild {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.SetterChild > div:first-child {
+    margin: 10px;
+}
+
+input {
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    padding-left: 15px;
+    font-size: 20px;
+    border-radius: 5px;
+
+}
+
 input.error {
     color: red;
     background: lightpink;
     font-weight: bold;
+    border: 2px solid red;
 }

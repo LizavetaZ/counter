@@ -10,6 +10,7 @@ type PropsType = {
 const Button = (props: PropsType) => {
 
     return (
+
         <button disabled = {props.disabled} onClick={props.callback}
         className={props.disabled ? s.disbutton : s.activebutton}>{props.name}</button>
     );

@@ -20,16 +20,21 @@ export function Counter(props: CounterPropsType) {
     const counter = props.counter
 
 
-return (
-    <>
-        {props.error ? <div className={`${s.counterfield} ${s.error}`}>{props.error}</div> :
-            <div className={counter===maxValue ? s.redcounterfield : s.counterfield}>{props.isChanged ? 'enter values and press \'set\'' : counter}
-        </div>}
-        <div className = 'buttons'>
-            <Button name={'inc'} callback={props.increaseCount} disabled={counter===maxValue }/>
-            <Button name={'reset'} callback={props.resetCount} disabled={counter <= minValue }/>
-        </div>
-    </>
-)
+    return (
+        <>
+            {props.error ? <div className={s.redcounterfield}>{props.error}</div> :
+                <div className={props.error ? s.redcounterfield : s.counterfield}>
+                    {props.isChanged ? 'enter values and press \'set\'' : (
+                        <span style={counter === maxValue ? {color: 'red'} : undefined}>
+                                {counter}
+                        </span>)}
+                </div>}
+            <div className={s.buttons}>
+                <Button name={'inc'} callback={props.increaseCount}
+                        disabled={counter === maxValue || !!props.isChanged}/>
+                <Button name={'reset'} callback={props.resetCount} disabled={counter <= minValue || !!props.isChanged}/>
+            </div>
+        </>
+    )
 }
 

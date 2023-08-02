@@ -12,7 +12,8 @@ function App() {
             let newMaxValue = JSON.parse(maxValueAsString)
             return newMaxValue
         }
-        return 5 });
+        return 5
+    });
 
     let [minimumValue, setMinValue] = useState(() => {
         let minValueAsString = localStorage.getItem('minimumValue')
@@ -20,7 +21,8 @@ function App() {
             let newMinValue = JSON.parse(minValueAsString)
             return newMinValue
         }
-        return 0});
+        return 0
+    });
 
 
     let [isChanged, setIsChanged] = useState(false);
@@ -28,9 +30,8 @@ function App() {
     const [counter, setCounter] = useState<number>(minimumValue)
 
 
-
     const increaseCount = () => {
-        let incremet = counter+1
+        let incremet = counter + 1
         if (incremet <= maximumValue) {
             setCounter(incremet)
         }
@@ -43,7 +44,7 @@ function App() {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (minimumValue < 0 || minimumValue === maximumValue || minimumValue > maximumValue) {
+        if (minimumValue < 0 || minimumValue === maximumValue || minimumValue > maximumValue || maximumValue < 0) {
             setError('Incorrect value!');
         } else {
             setError('');
@@ -54,27 +55,25 @@ function App() {
         <div className="App">
             <div className="Setter">
                 <Setter maximumValue={maximumValue}
-                        minimumValue = {minimumValue}
-                        error = {error}
-                        isChanged = {isChanged}
-                        setIsChanged = {setIsChanged}
-                        setMaxValue = {setMaxValue}
-                        setMinValue = {setMinValue}
-                        counter = {counter}
-                        setCounter = {setCounter}/>
-            </div>
-            <div>
-                <div className={s.Counter}>
-                    <Counter
-                        maxValue={maximumValue}
-                        minValue={minimumValue}
+                        minimumValue={minimumValue}
+                        error={error}
                         isChanged={isChanged}
-                        increaseCount = {increaseCount}
-                        counter = {counter}
-                        resetCount = {resetCount}
-                        error = {error}
-                    />
-                </div>
+                        setIsChanged={setIsChanged}
+                        setMaxValue={setMaxValue}
+                        setMinValue={setMinValue}
+                        counter={counter}
+                        setCounter={setCounter}/>
+            </div>
+            <div className={s.Counter}>
+                <Counter
+                    maxValue={maximumValue}
+                    minValue={minimumValue}
+                    isChanged={isChanged}
+                    increaseCount={increaseCount}
+                    counter={counter}
+                    resetCount={resetCount}
+                    error={error}
+                />
             </div>
         </div>
     );

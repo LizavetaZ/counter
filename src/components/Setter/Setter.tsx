@@ -35,8 +35,8 @@ export const Setter = (props: SetterPropsType) => {
     }
 
     return (
-        <>
-            <div className={'inputsLine'}>
+        <div className={s.Setter}>
+            <div className={s.inputsLine}>
                 <SetValuesComponent
                     name={'max value'}
                     startValue={props.maximumValue}
@@ -46,9 +46,9 @@ export const Setter = (props: SetterPropsType) => {
                     startValue={props.minimumValue}
                     setTitle={(value) => handleMinValueChange(value)} error={props.error}/>
             </div>
-            <div>
+            <div className={s.setButton}>
                 <Button name={'set'} callback={setValue} disabled={!props.isChanged || !!props.error}/>
             </div>
-        </>
+        </div>
     );
 };
