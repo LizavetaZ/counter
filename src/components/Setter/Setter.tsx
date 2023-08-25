@@ -1,53 +1,62 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SetValuesComponent} from "../SetValuesComponent/SetValuesComponent";
 import Button from "../Button/Button";
 import s from './Setter.module.css'
-
-export type SetterPropsType = {
-    minimumValue: number
-    maximumValue: number
-    counter: number
-    error: string
-    isChanged: boolean
-    setIsChanged:(isChanged: boolean) => void
-    setMaxValue: (maximumValue: number) => void
-    setMinValue: (minimumValue: number) => void
-    setCounter: (counter: number) => void
-    setValue: () => void
-    setIsSetClicked: (value: boolean) => void
-}
+import {
+    cleanErrorAC,
+    setErrorAC,
+    setIsChangedAC,
+    setIsSetClickedAC,
+    setMaxValueAC,
+    setMinValueAC,
+    setValueAC
+} from "../../reducers/setter-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {RootReducerType} from "../../store/store";
 
 
-export const Setter = (props: SetterPropsType) => {
+export const Setter = () => {
+
+    const dispatch = useDispatch()
+    const stateForSetter = useSelector((state: RootReducerType) => state.setter);
 
     const handleMaxValueChange = (value: number) => {
-        props.setMaxValue(value)
-        props.setIsChanged(true)
+        dispatch(setMaxValueAC(value));
+        dispatch(setIsChangedAC(true));
     };
+
     const handleMinValueChange = (value: number) => {
-        props.setMinValue(value);
-        props.setIsChanged(true)
+        dispatch(setMinValueAC(value));
+        dispatch(setIsChangedAC(true));
     };
 
     const handleSetValueAndChickIsClickedSet = () => {
-        props.setValue()
-        props.setIsSetClicked(false)
-    }
+        dispatch(setValueAC());
+        dispatch(setIsSetClickedAC(false));
+    };
+
+    useEffect(() => {
+        if (stateForSetter.minimumValue < 0 || stateForSetter.minimumValue === stateForSetter.maximumValue || stateForSetter.minimumValue > stateForSetter.maximumValue || stateForSetter.maximumValue < 0) {
+            dispatch(setErrorAC('Incorrect value!'))
+        } else {
+            dispatch(cleanErrorAC());
+        }
+    }, [stateForSetter.minimumValue, stateForSetter.maximumValue]);
 
     return (
         <div className={s.Setter}>
             <div className={s.inputsLine}>
                 <SetValuesComponent
                     name={'max value'}
-                    startValue={props.maximumValue}
-                    setTitle={(value) => handleMaxValueChange(value)} error={props.error}/>
+                    startValue={stateForSetter.maximumValue}
+                    setTitle={(value) => handleMaxValueChange(value)} error={stateForSetter.error}/>
                 <SetValuesComponent
                     name={'min value'}
-                    startValue={props.minimumValue}
-                    setTitle={(value) => handleMinValueChange(value)} error={props.error}/>
+                    startValue={stateForSetter.minimumValue}
+                    setTitle={(value) => handleMinValueChange(value)} error={stateForSetter.error}/>
             </div>
             <div className={s.setButton}>
-                    <Button name={'set'} callback={handleSetValueAndChickIsClickedSet}  disabled={!props.isChanged || !!props.error}/>
+                    <Button name={'set'} callback={handleSetValueAndChickIsClickedSet}  disabled={!stateForSetter.isChanged || !!stateForSetter.error}/>
             </div>
         </div>
     );

@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import Button from "../Button/Button";
 import s from './Counter.module.css'
+import {useDispatch, useSelector} from "react-redux";
+import {RootReducerType} from "../../store/store";
+import {setCounterAC, setIsSetClickedAC} from "../../reducers/setter-reducer";
 
 export type CounterPropsType = {
     maxValue: number
@@ -14,31 +17,41 @@ export type CounterPropsType = {
 }
 
 
-export function Counter(props: CounterPropsType) {
+export function Counter() {
 
-    const minValue = props.minValue
-    const maxValue = props.maxValue
-    const counter = props.counter
+
+    const dispatch = useDispatch()
+    const stateForSetter = useSelector((state: RootReducerType) => state.setter);
 
     const handleSetValue = () => {
-        props.setIsSetClicked(true);
+        dispatch(setIsSetClickedAC(true))
     }
 
+    const increaseCount = () => {
+        let incremet = stateForSetter.counter + 1
+        if (incremet <= stateForSetter.maximumValue) {
+           dispatch(setCounterAC(incremet))
+        }
+    }
+
+    const resetCount = () => {
+        dispatch(setCounterAC(stateForSetter.minimumValue))
+    }
 
 
     return (
         <div className={s.Counter}>
-            {props.error ? <div className={s.redcounterfield}>{props.error}</div> :
-                <div className={props.error ? s.redcounterfield : s.counterfield}>
-                    {props.isChanged ? 'enter values and press \'set\'' : (
-                        <span style={counter === maxValue ? {color: 'red'} : undefined}>
-                                {counter}
+            {stateForSetter.error ? <div className={s.redcounterfield}>{stateForSetter.error}</div> :
+                <div className={stateForSetter.error ? s.redcounterfield : s.counterfield}>
+                    {stateForSetter.isChanged ? 'enter values and press \'set\'' : (
+                        <span style={stateForSetter.counter === stateForSetter.maximumValue ? {color: 'red'} : undefined}>
+                                {stateForSetter.counter}
                         </span>)}
                 </div>}
             <div className={s.buttons}>
-                <Button name={'inc'} callback={props.increaseCount}
-                        disabled={counter === maxValue || !!props.isChanged}/>
-                <Button name={'reset'} callback={props.resetCount} disabled={counter <= minValue || !!props.isChanged}/>
+                <Button name={'inc'} callback={increaseCount}
+                        disabled={stateForSetter.counter === stateForSetter.maximumValue || !!stateForSetter.isChanged}/>
+                <Button name={'reset'} callback={resetCount} disabled={stateForSetter.counter <= stateForSetter.minimumValue || !!stateForSetter.isChanged}/>
                 <Button name={'set'} callback={handleSetValue} disabled={false}/>
             </div>
         </div>

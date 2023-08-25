@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import s from './SetValuesComponent.module.css'
+import {useDispatch, useSelector} from "react-redux";
+import {RootReducerType} from "../../store/store";
 
 export type SetValuesComponentType = {
     name: string
@@ -9,6 +11,10 @@ export type SetValuesComponentType = {
 }
 
 export const SetValuesComponent = (props: SetValuesComponentType) => {
+
+    const dispatch = useDispatch()
+    const stateForSetter = useSelector((state: RootReducerType) => state.setter);
+
 
     const [value, setValue] = useState(props.startValue)
 
@@ -22,7 +28,7 @@ export const SetValuesComponent = (props: SetValuesComponentType) => {
         <div className={s.SetterChild}>
             <div>{props.name}</div>
             <div className={'inputWrapper'}>
-                <input type="number" value = {value} onChange={onChangeInputHandler} className={props.error ? s.error : ''}/>
+                <input type="number" value = {value} onChange={onChangeInputHandler} className={stateForSetter.error ? s.error : ''}/>
             </div>
         </div>
     );
