@@ -1,25 +1,26 @@
-export type SetterPropsType = {
+export type ReducerPropsType = {
     minimumValue: number
     maximumValue: number
     counter: number
-    error: string
+    error: boolean
     isChanged: boolean
     isSetClicked: boolean
+    startValue: number
     setIsChanged: (isChanged: boolean) => void
     setMaxValue: (maximumValue: number) => void
     setMinValue: (minimumValue: number) => void
     setCounter: (counter: number) => void
     setValue: () => void
-    setIsSetClicked: (value: boolean) => void
 }
 
-export const initialState: SetterPropsType = {
+export const initialState: ReducerPropsType = {
     minimumValue: 0,
     maximumValue: 4,
     counter: 0,
-    error: '',
+    error: false,
     isChanged: false,
     isSetClicked: false,
+    startValue: 0,
     setIsChanged: () => {
     },
     setMaxValue: () => {
@@ -30,11 +31,9 @@ export const initialState: SetterPropsType = {
     },
     setValue: () => {
     },
-    setIsSetClicked: () => {
-    },
 };
 
-export const setterReducer = (state: SetterPropsType = initialState, action: RootSetterType): SetterPropsType => {
+export const mainReducer = (state: ReducerPropsType = initialState, action: RootSetterType): ReducerPropsType => {
     switch (action.type) {
         case 'SET-MAX-VALUE':
             return {...state, maximumValue: action.payload.value};
@@ -50,30 +49,30 @@ export const setterReducer = (state: SetterPropsType = initialState, action: Roo
                 ...state,
                 isChanged: false,
                 counter: state.minimumValue,
-                setIsSetClicked: () => setIsSetClickedAC(true)
+                isSetClicked: true
             };
         case 'IS-SET-CLICKED':
             return {
                 ...state,
                 isSetClicked: action.payload.value,
             }
-        case 'SET-IS-SET-CLICKED':
-            return {...state, isSetClicked: action.payload.value};
         case 'SET-ERROR':
             return {
                 ...state,
-                error: String(action.payload.value),
+                error: true,
             };
         case 'CLEAN-ERROR':
             return {
                 ...state,
-                error: '',
+                error: false,
             };
         case 'SET-COUNTER':
             return {
                 ...state,
                 counter: action.payload.value
             }
+        case 'SET-START-VALUE':
+            return {...state, startValue: action.payload.value};
         default:
             return state;
     }
@@ -84,21 +83,21 @@ export type RootSetterType =
     | setMinValueACType
     | setIsChangedACType
     | setValueACType
-    | setIsSetClickedACType
     | setErrorACType
     | cleanErrorACType
     | setCounterACType
     | isSetClickedACType
+    | setStartValueACType
 
 type setMaxValueACType = ReturnType<typeof setMaxValueAC>
 type setMinValueACType = ReturnType<typeof setMinValueAC>
 type setIsChangedACType = ReturnType<typeof setIsChangedAC>
 type setValueACType = ReturnType<typeof setValueAC>
-type setIsSetClickedACType = ReturnType<typeof setIsSetClickedAC>
 type setErrorACType = ReturnType<typeof setErrorAC>
 type cleanErrorACType = ReturnType<typeof cleanErrorAC>
 type setCounterACType = ReturnType<typeof setCounterAC>
 type isSetClickedACType = ReturnType<typeof isSetClickedAC>
+type setStartValueACType = ReturnType<typeof setStartValueAC>
 
 
 export const setMaxValueAC = (value: number) => {
@@ -128,17 +127,9 @@ export const setValueAC = () => {
     } as const
 }
 
-export const setIsSetClickedAC = (value: boolean) => {
+export const setErrorAC = () => {
     return {
-        type: 'SET-IS-SET-CLICKED',
-        payload: {value},
-    } as const
-}
-
-export const setErrorAC = (value: string) => {
-    return {
-        type: 'SET-ERROR',
-        payload: {value}
+        type: 'SET-ERROR'
     } as const
 }
 
@@ -158,6 +149,13 @@ export const setCounterAC = (value: number) => {
 export const isSetClickedAC = (value: boolean) => {
     return {
         type: 'IS-SET-CLICKED',
+        payload: {value},
+    } as const;
+};
+
+export const setStartValueAC = (value: number) => {
+    return {
+        type: 'SET-START-VALUE',
         payload: {value},
     } as const;
 };

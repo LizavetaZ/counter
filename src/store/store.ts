@@ -1,8 +1,8 @@
-import { legacy_createStore as createStore,combineReducers} from 'redux'
-import {setterReducer} from "../reducers/setter-reducer";
+import {combineReducers, legacy_createStore as createStore} from 'redux'
+import {mainReducer} from "../reducers/main-reducer";
 
 export const RootReducer=combineReducers({
-    setter: setterReducer
+    commonState: mainReducer
 })
 
 export const store=createStore(RootReducer)

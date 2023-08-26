@@ -3,14 +3,13 @@ import {SetValuesComponent} from "../SetValuesComponent/SetValuesComponent";
 import Button from "../Button/Button";
 import s from './Setter.module.css'
 import {
-    cleanErrorAC,
+    cleanErrorAC, isSetClickedAC,
     setErrorAC,
     setIsChangedAC,
-    setIsSetClickedAC,
     setMaxValueAC,
     setMinValueAC,
     setValueAC
-} from "../../reducers/setter-reducer";
+} from "../../reducers/main-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../store/store";
 
@@ -18,7 +17,7 @@ import {RootReducerType} from "../../store/store";
 export const Setter = () => {
 
     const dispatch = useDispatch()
-    const stateForSetter = useSelector((state: RootReducerType) => state.setter);
+    const stateForSetter = useSelector((state: RootReducerType) => state.commonState);
 
     const handleMaxValueChange = (value: number) => {
         dispatch(setMaxValueAC(value));
@@ -30,14 +29,14 @@ export const Setter = () => {
         dispatch(setIsChangedAC(true));
     };
 
-    const handleSetValueAndChickIsClickedSet = () => {
+    const handleSetValueAndCheckIsClicked = () => {
         dispatch(setValueAC());
-        dispatch(setIsSetClickedAC(false));
+        dispatch(isSetClickedAC(false));
     };
 
     useEffect(() => {
         if (stateForSetter.minimumValue < 0 || stateForSetter.minimumValue === stateForSetter.maximumValue || stateForSetter.minimumValue > stateForSetter.maximumValue || stateForSetter.maximumValue < 0) {
-            dispatch(setErrorAC('Incorrect value!'))
+            dispatch(setErrorAC())
         } else {
             dispatch(cleanErrorAC());
         }
@@ -49,14 +48,14 @@ export const Setter = () => {
                 <SetValuesComponent
                     name={'max value'}
                     startValue={stateForSetter.maximumValue}
-                    setTitle={(value) => handleMaxValueChange(value)} error={stateForSetter.error}/>
+                    setTitle={handleMaxValueChange}/>
                 <SetValuesComponent
                     name={'min value'}
                     startValue={stateForSetter.minimumValue}
-                    setTitle={(value) => handleMinValueChange(value)} error={stateForSetter.error}/>
+                    setTitle={handleMinValueChange}/>
             </div>
             <div className={s.setButton}>
-                    <Button name={'set'} callback={handleSetValueAndChickIsClickedSet}  disabled={!stateForSetter.isChanged || !!stateForSetter.error}/>
+                    <Button name={'set'} callback={handleSetValueAndCheckIsClicked}  disabled={!stateForSetter.isChanged || stateForSetter.error}/>
             </div>
         </div>
     );
